@@ -1,0 +1,148 @@
+@page
+@model RazorPagesUI.Pages.ManageCustomersModel
+@{
+    ViewData["Title"] = "Manage Customers";
+}
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manage Customers</h2>
+    <form method="post" id="manage-customers-form" class="space-y-4">
+        <div>
+            <label for="customer-name" class="block text-gray-700 text-sm font-bold mb-2">Customer Name:</label>
+            <input type="text" id="customer-name" asp-for="Customer.CustomerName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span asp-validation-for="Customer.CustomerName" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div>
+            <label for="customer-email" class="block text-gray-700 text-sm font-bold mb-2">Customer Email:</label>
+            <input type="email" id="customer-email" asp-for="Customer.CustomerEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span asp-validation-for="Customer.CustomerEmail" class="text-red-500 text-xs italic"></span>
+        </div>
+        <input type="hidden" id="customer-id" asp-for="Customer.CustomerID" />
+        <div class="flex space-x-4">
+            <button type="submit" asp-page-handler="AddCustomer" id="add-customer-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Customer</button>
+            <button type="submit" asp-page-handler="UpdateCustomer" id="update-customer-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" style="display: none;">Update Customer</button>
+            <button type="button" id="cancel-customer-button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" style="display: none;">Cancel</button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="mt-4 text-center text-red-500 font-semibold">@Model.ErrorMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="mt-4 text-center text-green-500 font-semibold">@Model.SuccessMessage</div>
+    }
+
+    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Customer List</h3>
+    <div id="customer-list-container" class="overflow-x-auto">
+        <table id="customer-list" class="min-w-full leading-normal shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-200 text-gray-700">
+                <tr>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">ID</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Name</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Email</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                @foreach (var customer in Model.Customers)
+                {
+                    <tr>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm"><span class="font-italic text-gray-800">@customer.CustomerID</span></td>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm"><span class="font-semibold text-gray-900">@customer.CustomerName</span></td>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm"><span class="text-gray-600">@customer.CustomerEmail</span></td>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                            <button class="edit-btn bg-blue-200 hover:bg-blue-300 text-blue-800 font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline text-xs mr-1" data-customer-id="@customer.CustomerID" data-customer-name="@customer.CustomerName" data-customer-email="@customer.CustomerEmail">Edit</button>
+                            <button class="delete-btn bg-red-200 hover:bg-red-300 text-red-800 font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline text-xs" data-customer-id="@customer.CustomerID">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('manage-customers-form');
+            const customerNameInput = document.getElementById('customer-name');
+            const customerEmailInput = document.getElementById('customer-email');
+            const customerIdInput = document.getElementById('customer-id');
+            const addCustomerButton = document.getElementById('add-customer-button');
+            const updateCustomerButton = document.getElementById('update-customer-button');
+            const cancelButton = document.getElementById('cancel-customer-button');
+            const editButtons = document.querySelectorAll('.edit-btn');
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+
+            let editingCustomer = null;
+
+            cancelButton.addEventListener('click', () => {
+                form.reset();
+                addCustomerButton.style.display = 'inline-block';
+                updateCustomerButton.style.display = 'none';
+                cancelButton.style.display = 'none';
+                editingCustomer = null;
+            });
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const customerId = event.target.dataset.customerId;
+                    const customerName = event.target.dataset.customerName;
+                    const customerEmail = event.target.dataset.customerEmail;
+
+                    editingCustomer = {
+                        customerId: customerId,
+                        customerName: customerName,
+                        customerEmail: customerEmail
+                    };
+
+                    customerIdInput.value = customerId;
+                    customerNameInput.value = customerName;
+                    customerEmailInput.value = customerEmail;
+                    addCustomerButton.style.display = 'none';
+                    updateCustomerButton.style.display = 'inline-block';
+                    cancelButton.style.display = 'inline-block';
+                });
+            });
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const customerId = event.target.dataset.customerId;
+                    if (confirm('Are you sure you want to delete this customer?')) {
+                        const url = `/ManageCustomers?handler=DeleteCustomer&id=${customerId}`;
+                        window.location.href = url;
+                    }
+                });
+            });
+
+            form.addEventListener('submit', (event) => {
+                let hasErrors = false;
+
+                if (!customerNameInput.value.trim()) {
+                    hasErrors = true;
+                    // Display client-side error (already handled by asp-validation-for)
+                }
+
+                if (!customerEmailInput.value.trim()) {
+                    hasErrors = true;
+                } else if (!isValidEmail(customerEmailInput.value.trim())) {
+                    hasErrors = true;
+                    // Display client-side error (already handled by asp-validation-for)
+                }
+
+                if (hasErrors) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (editingCustomer) {
+                    customerIdInput.value = editingCustomer.customerId;
+                }
+            });
+
+          
+        });
+    </script>
+}

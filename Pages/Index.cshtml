@@ -1,0 +1,79 @@
+﻿@page
+@model RazorPagesUI.Pages.IndexModel
+@{
+    ViewData["Title"] = "Welcome to Razor ";
+}
+
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20 md:py-32">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 animate-fade-in-down">
+            Discover the Future of Web Apps
+        </h1>
+        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-fade-in-up">
+            Seamlessly manage your customers and accounts with our modern, secure platform.
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a asp-page="/Register" class="bg-white text-indigo-600 font-semibold py-3 px-6 rounded-full hover:bg-indigo-100 transition-transform transform hover:scale-105">
+                Get Started
+            </a>
+            <a asp-page="/ListCustomers" class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-full hover:bg-white hover:text-indigo-600 transition-transform transform hover:scale-105">
+                Explore Features
+            </a>
+        </div>
+    </div>
+    <!-- Optional Hero Image -->
+     <!--  <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>  -->
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-12 animate-fade-in">
+            Why Choose Razor?
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center transform transition-transform hover:scale-105 animate-fade-in-up">
+                <div class="text-indigo-600 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.1.9-2 2-2s2 .9 2 2-2 4-2 4m-4-4c0-1.1-.9-2-2-2s-2 .9-2 2 2 4 2 4m8-6V5a2 2 0 00-2-2H6a2 2 0 00-2 2v6m16 0v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Secure Authentication</h3>
+                <p class="text-gray-600">Register and log in with confidence using our secure, encrypted system.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center transform transition-transform hover:scale-105 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="text-indigo-600 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v2h" ></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Customer Management</h3>
+                <p class="text-gray-600">Easily add, update, and delete customer records with a user-friendly interface.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center transform transition-transform hover:scale-105 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="text-indigo-600 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Real-Time Search</h3>
+                <p class="text-gray-600">Quickly find and sort customers with our powerful search tools.</p>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-indigo-700 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-fade-in">Ready to Transform Your Workflow?</h2>
+        <a asp-page="/Register" class="bg-white text-indigo-600 font-semibold py-3 px-6 rounded-full hover:bg-indigo-100 transition-transform transform hover:scale-105">
+            Sign Up Now
+        </a>
+    </div>
+</section>

@@ -1,0 +1,47 @@
+@page
+@model RazorPagesUI.Pages.ListCustomersModel
+@{
+    ViewData["Title"] = "Customer List";
+}
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Customer List</h2>
+    <form method="get" class="mb-4">
+        <div class="mb-4">
+            <label for="search-input" class="block text-gray-700 text-sm font-bold mb-2">Search:</label>
+            <input type="text" id="search-input" asp-for="SearchTerm" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mt-2 flex space-x-2">
+            <label for="sort-select" class="block text-gray-700 text-sm font-bold mb-2">Sort By:</label>
+            <select id="sort-select" asp-for="SortOrder" class="border rounded py-2 px-3 focus:outline-none focus:shadow-outline">
+                <option value="">None</option>
+                <option value="name_asc">Name (A-Z)</option>
+                <option value="name_desc">Name (Z-A)</option>
+                <option value="email_asc">Email (A-Z)</option>
+                <option value="email_desc">Email (Z-A)</option>
+            </select>
+            <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Filter</button>
+        </div>
+    </form>
+    <div id="customer-list-container" class="overflow-x-auto">
+        <table id="customer-list" class="min-w-full leading-normal shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-200 text-gray-700">
+                <tr>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">ID</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Name</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Email</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                @foreach (var customer in Model.Customers)
+                {
+                    <tr>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm"><span class="font-italic text-gray-800">@customer.CustomerID</span></td>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm"><span class="font-semibold text-gray-900">@customer.CustomerName</span></td>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm"><span class="text-gray-600">@customer.CustomerEmail</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
